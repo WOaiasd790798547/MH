@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title></title>
+<script src="js/jquery-1.9.1.min.js"></script>
+<script src="js/data.js"></script>
+<script src="js/jQuery.autocomplete.js"></script>
+<style>
+	*{margin:0;padding:0;}
+	html,body{width:100%;height:100%;}
+	input{width:200px;height:30px;border:1px solid #ccc;margin-top:400px;margin-left:400px;}
+	li{list-style:none;}
+	.framework_div{border:1px solid #ccc;z-index:999;}
+	.framework_div ul li.active{background: #ccc;color:#fff;}
+</style>
+<script>
+	$(function(){
+		$("#input3").autoComplete({
+			url:'http://huface.baoku.com/countryOS.do?method=searchCountry',  //数据请求地址 如果存在lookup参数则ajax不进行请求
+			maxH:300,     	       //最大高度  Number
+			data:{},               //ajax请求参数 默认为空
+			delayms:2000,          //数据请求延迟时间  Number
+			lookup:dataArr,        //本地数据
+			fuzzyQuery:true,       //是否开启模糊查询 默认为是
+			searchArr:['nameCn','countryCode','nameEn'],  //需要模糊查询的参考值
+			dWidth:300,            //框架宽度
+			zLayout:function(data){
+				//自定义显示内容
+				var arr=data;
+				var html='';
+				for(var i=0;i<arr.length;i++)
+				{
+					html+='<li>'+arr[i].nameCn+'['+arr[i].countryCode+']'+arr[i].nameEn+'</li>';
+				}
+				return html;
+			},
+			callBack:function(item){
+				//点击或者回车执行方法   item 为当前选中的对象   eg：{"id":0,"telCode":"","nameEn":"Andorra","continentArea":"","countryCode":"AD","nameCn":"安道尔"}
+				$('#input3').val(item.countryCode);
+			}
+		});
+	});
+	function aaa(obj){
+		$(obj).autoComplete({
+			url:'http://huface.baoku.com/countryOS.do?method=searchCountry',  //数据请求地址 如果存在lookup参数则ajax不进行请求
+			maxH:300,     	       //最大高度  Number
+			data:{},               //ajax请求参数 默认为空
+			delayms:2000,          //数据请求延迟时间  Number
+			lookup:dataArr,        //本地数据
+			fuzzyQuery:true,       //是否开启模糊查询 默认为是
+			searchArr:['nameCn','countryCode','nameEn'],  //需要模糊查询的内容
+			dWidth:300,            //框架宽度
+			zLayout:function(data){
+				//自定义显示内容
+				var arr=data;
+				var html='';
+				for(var i=0;i<arr.length;i++)
+				{
+					html+='<li>'+arr[i].nameCn+'['+arr[i].countryCode+']'+arr[i].nameEn+'</li>';
+				}
+				return html;
+			},
+			callBack:function(item){
+				//点击或者回车执行方法   item 为当前选中的对象   eg：{"id":0,"telCode":"","nameEn":"Andorra","continentArea":"","countryCode":"AD","nameCn":"安道尔"}
+				$(obj).val(item.countryCode);
+			}
+		});
+	}
+</script>
+</head>
+<body style="height:3000px;">
+	<input type="text" id="input" onfocus="aaa(this)"/>
+	<input type="text"id="input2"  onfocus="aaa(this)"/>
+	<input type="text" id="input3" />
+</body>
+</html>
